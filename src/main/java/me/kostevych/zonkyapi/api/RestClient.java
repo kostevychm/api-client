@@ -31,35 +31,35 @@ public class RestClient {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private RestTemplate restTemplate;
+	private RestTemplate restTemplate;
 	
-    //URL of API entrypoint from property file
+	//URL of API entrypoint from property file
 	@Value("${api.source-url}")
 	private String sourceUrl;
 
 	@Value("${api.initial-loans-count}")
 	private Integer initialCount;
     
-    public RestClient() {
-    	this.restTemplate = new RestTemplateBuilder().build();
-    }
+	public RestClient() {
+		this.restTemplate = new RestTemplateBuilder().build();
+	}
 
-    /** 
+	/** 
 	 * Get initial data from rest
 	 */
 	public List<Loan> getInitialLoans()
-    {		
+	{		
 		logger.debug("Getting initial data...");
 
-	    Map<String,String> headers = new HashMap<>();
+		Map<String,String> headers = new HashMap<>();
 	    
-	    //According to documentation will return limited count of results.
-	    headers.put("X-Size", initialCount.toString());
+		//According to documentation will return limited count of results.
+		headers.put("X-Size", initialCount.toString());
 	    
-	    URI uri = UriComponentsBuilder.fromHttpUrl(sourceUrl).build(true).toUri();
+		URI uri = UriComponentsBuilder.fromHttpUrl(sourceUrl).build(true).toUri();
 	
-	    return getFromURI(uri, headers);
-    }
+		return getFromURI(uri, headers);
+	}
 	
 	/** 
 	 * Check new loans 
@@ -68,12 +68,12 @@ public class RestClient {
 		logger.debug("Getting new loans... After: {}", afterTime);
 
 		//Find all published later than @afterTime
-        URI uri = UriComponentsBuilder.fromHttpUrl(sourceUrl)
+    	URI uri = UriComponentsBuilder.fromHttpUrl(sourceUrl)
                 .queryParam("datePublished__gt", UriUtils.encode(afterTime.toString(), "UTF-8"))
                 .build(true).toUri();
 
-        return getFromURI(uri, null);
-    }
+    	return getFromURI(uri, null);
+	}
 	
 	/** 
 	 * Send requests and returns list of loans 
@@ -81,12 +81,12 @@ public class RestClient {
 	private List<Loan> getFromURI(URI uri, Map<String,String> customHeaders) {
 		logger.debug("Downloading from REST entrypoint...");
 		HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        //Order by
-        headers.set("X-Order", "-datePublished");
+		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+    	//Order by
+    	headers.set("X-Order", "-datePublished");
         
-        //Add additional headers to HttpHeaders
-        if(customHeaders != null && !customHeaders.isEmpty()) {
+    	//Add additional headers to HttpHeaders
+    	if(customHeaders != null && !customHeaders.isEmpty()) {
         	for(String key : customHeaders.keySet())
         		headers.set(key, customHeaders.get(key));
         }
@@ -94,7 +94,5 @@ public class RestClient {
         ResponseEntity<Loan[]> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), Loan[].class);
         Loan[] returnedLoans = responseEntity.getBody();
         return returnedLoans != null ? Arrays.asList(returnedLoans) : Collections.emptyList();
-    }
-	
-
+	}
 }
