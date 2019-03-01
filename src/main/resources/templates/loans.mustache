@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <script language="javascript">
+	setInterval(function(){
+	   window.location.reload(1);
+	}, 350000);
+	</script>
+	
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container">
+	    <h1>All loans</h1>
+	    
+	    <div class="card-columns">
+	    {{#loans}}
+	    
+	    <div class="card my-3">
+		  <div class="card-body">
+		    <h5 class="card-title">{{name}} <span class="text-success">{{rating}}</span></h5>
+		    <p class="card-text">{{amount}}</p>
+		  </div>
+		  <div class="card-footer text-muted">
+		  	{{datePublished}}
+		  </div>
+		</div>
+		{{/loans}}
+	</div>
+</body>
+</html>
