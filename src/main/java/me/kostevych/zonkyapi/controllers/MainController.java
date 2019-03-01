@@ -17,7 +17,7 @@ public class MainController {
 	private LoanService loanService;
 	
 	@GetMapping
-    public ModelAndView index(Map<String, Object> model) {
+	public ModelAndView index(Map<String, Object> model) {
 		model.put("loans", loanService.getLoans());
 		return new ModelAndView("loans", model);
 	}
