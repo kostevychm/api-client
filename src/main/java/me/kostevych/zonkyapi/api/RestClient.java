@@ -82,17 +82,17 @@ public class RestClient {
 		logger.debug("Downloading from REST entrypoint...");
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-    	//Order by
-    	headers.set("X-Order", "-datePublished");
+		//Order by
+		headers.set("X-Order", "-datePublished");
         
-    	//Add additional headers to HttpHeaders
-    	if(customHeaders != null && !customHeaders.isEmpty()) {
+		//Add additional headers to HttpHeaders
+		if(customHeaders != null && !customHeaders.isEmpty()) {
         	for(String key : customHeaders.keySet())
         		headers.set(key, customHeaders.get(key));
-        }
+		}
 		
-    	ResponseEntity<Loan[]> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), Loan[].class);
-    	Loan[] returnedLoans = responseEntity.getBody();
-    	return returnedLoans != null ? Arrays.asList(returnedLoans) : Collections.emptyList();
+		ResponseEntity<Loan[]> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), Loan[].class);
+		Loan[] returnedLoans = responseEntity.getBody();
+		return returnedLoans != null ? Arrays.asList(returnedLoans) : Collections.emptyList();
 	}
 }
