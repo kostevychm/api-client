@@ -91,8 +91,8 @@ public class RestClient {
         		headers.set(key, customHeaders.get(key));
         }
 		
-        ResponseEntity<Loan[]> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), Loan[].class);
-        Loan[] returnedLoans = responseEntity.getBody();
-        return returnedLoans != null ? Arrays.asList(returnedLoans) : Collections.emptyList();
+    	ResponseEntity<Loan[]> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), Loan[].class);
+    	Loan[] returnedLoans = responseEntity.getBody();
+    	return returnedLoans != null ? Arrays.asList(returnedLoans) : Collections.emptyList();
 	}
 }
